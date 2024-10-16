@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats as stats
+from scipy.stats import norm
 
 from aulaPython01.leituraExcel import desvio_padrao
 
@@ -108,3 +109,40 @@ def teste_hipotese_variancia(x, sigma0_2, alfa=0.05, tipo='bilateral'):
 
     return chi2_calculado, chi2_critico, rejeitar_h0
 
+
+def probabilidade_media_acima(media_populacional, desvio_padrao_populacional, n, media_amostra):
+    """
+    Calcula a probabilidade de a média de uma amostra ser superior a um valor específico
+    usando o Teorema Central do Limite.
+
+    Parâmetros:
+    - media_populacional: Média da população (float)
+    - desvio_padrao_populacional: Desvio padrão da população (float)
+    - n: Tamanho da amostra (int)
+    - media_amostra: Média da amostra para a qual queremos calcular a probabilidade (float)
+
+    Retorna:
+    - Valor de Z
+    - Probabilidade de a média amostral ser superior a 'media_amostra'
+    """
+    # Calcular o erro padrão da média
+    erro_padrao = desvio_padrao_populacional / np.sqrt(n)
+
+    # Calcular o valor de Z
+    z = (media_amostra - media_populacional) / erro_padrao
+
+    # Calcular a probabilidade de Z ser maior que o valor calculado
+    probabilidade = 1 - norm.cdf(z)
+
+    return z, probabilidade
+
+media_populacional = 10  # Média da população em minutos
+desvio_padrao_populacional = 2  # Desvio padrão da população em minutos
+n = 36  # Tamanho da amostra
+media_amostra = 11  # Média para a qual queremos calcular a probabilidade
+
+# Chamando a função
+z, probabilidade = probabilidade_media_acima(media_populacional, desvio_padrao_populacional, n, media_amostra)
+
+print(f"Valor de Z: {z}")
+print(f"Probabilidade de que a média da amostra seja maior que 11 minutos: {probabilidade:.4f}")
