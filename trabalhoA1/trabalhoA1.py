@@ -16,6 +16,15 @@ class Estatistica:
         return z
 
     #Calcula a probabilidade acumulada para um valor Z usando a distribuição normal padrão.
-    def probabilidade_z(self, z):
+    def probabilidade_z(z):
         return stats.norm.cdf(z)
 
+    #Calcula a covariância entre a amostra atual e outra amostra.
+    def covariancia(self, outra_amostra):
+
+        outra_amostra = np.array(outra_amostra)
+        if len(outra_amostra) != self.n:
+            raise ValueError("As duas amostras devem ter o mesmo tamanho.")
+
+        cov = np.cov(self.amostra, outra_amostra)[0, 1]
+        return cov
