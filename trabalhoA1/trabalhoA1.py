@@ -83,6 +83,10 @@ class Estatistica:
         plt.figure(figsize=(10, 6))
         plt.plot(x, y, label="Distribuição t-Student", color='blue')
 
+        x_fill = np.linspace(-4, t, 1000)
+        y_fill = stats.t.pdf(x_fill, df)
+        plt.fill_between(x_fill, y_fill, color='lightblue', alpha=0.5)
+
         plt.axvline(x=t, color='red', linestyle='--', label=f'Valor t: {t:.2f} (p = {p:.4f})')
 
         plt.title('Distribuição t-Student')
