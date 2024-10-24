@@ -59,8 +59,42 @@ class Estatistica:
         cov = np.cov(self.amostra, outra_amostra)[0, 1]
         return cov
 
-# Exemplo de uso
-if __name__ == "__main__":
-    amostra = [10, 12, 23, 23, 16, 23, 21]
-    estatistica = Estatistica(amostra)
-    estatistica.plotar_tcl(n_amostras=1000, tamanho_amostra=30)
+    # Calcula o valor do t-Student para uma amostra em comparação com a média da população
+    def calcular_t(self, media_populacional):
+        erro_padrao = self.desvio_padrao / np.sqrt(self.n)
+        t = (self.media - media_populacional) / erro_padrao
+        return t
+
+    # Calcula o valor p para o teste t
+    def valor_p_t(self, media_populacional):
+        t = self.calcular_t(media_populacional)
+
+        df= self.n -1
+        p = (1 - stats.t.cdf(abs(t), df)) * 2
+        return  t,p
+
+    def plotar_t_student(self, media_populacional):
+        t, p = self.valor_p_t(media_populacional)
+        df = self.n -1
+
+        x = np.linspace(-4, 4, 1000)
+        y = stats.t.pdf(x, df)
+
+        plt.figure(figsize=(10, 6))
+        plt.plot(x, y, label="Distribuição t-Student", color='blue')
+
+        plt.axvline(x=t, color='red', linestyle='--', label=f'Valor t: {t:.2f} (p = {p:.4f})')
+
+        plt.title('Distribuição t-Student')
+        plt.xlabel('t')
+        plt.ylabel('Densidade')
+        plt.legend()
+        plt.grid()
+        plt.show()
+
+
+amostra = [20, 22, 23, 21, 24, 25, 30, 22, 18, 27]
+estatistica = Estatistica(amostra)
+
+media_populacional = 23  # Média populacional hipotética
+estatistica.plotar_t_student(media_populacional)
