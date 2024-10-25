@@ -10,6 +10,8 @@ class Estatistica:
         self.media =np.mean(self.amostra)
         self.desvio_padrao = np.std(self.amostra, ddof=1)
 
+#TEOREMA CENTRAL DO LIMITE
+
     #Calcular o valor de Z utilizando o Teorema Central do Limite
     def calcular_z(self, valor):
 
@@ -48,6 +50,7 @@ class Estatistica:
         plt.grid()
         plt.show()
 
+#COVARIÃNCIA
 
     #Calcula a covariância entre a amostra atual e outra amostra.
     def covariancia(self, outra_amostra):
@@ -59,6 +62,7 @@ class Estatistica:
         cov = np.cov(self.amostra, outra_amostra)[0, 1]
         return cov
 
+#T-STUDENT
     # Calcula o valor do t-Student para uma amostra em comparação com a média da população
     def calcular_t(self, media_populacional):
         erro_padrao = self.desvio_padrao / np.sqrt(self.n)
