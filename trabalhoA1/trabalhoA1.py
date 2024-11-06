@@ -100,9 +100,3 @@ class Estatistica:
         plt.grid()
         plt.show()
 
-
-amostra = [20, 22, 23, 21, 24, 25, 30, 22, 18, 27]
-estatistica = Estatistica(amostra)
-
-media_populacional = 23  # Média populacional hipotética
-estatistica.plotar_t_student(media_populacional)
